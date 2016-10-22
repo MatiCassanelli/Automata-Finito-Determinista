@@ -16,6 +16,7 @@ public:
 	void setNombre(string);
 	bool esInicial();
 	bool esFinal();
+	void cambiar_inicial(bool);
 
 
 

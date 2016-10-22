@@ -37,3 +37,8 @@ bool Estado::esFinal()
 {
 	return salida;
 }
+
+void Estado::cambiar_inicial(bool cambio)
+{
+	inicial = cambio;
+}

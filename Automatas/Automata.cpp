@@ -4,21 +4,24 @@
 
 Automata::Automata()
 {	
-	int aux = 0;	//armar una funcion que se encargue del ingreso de todo y no hacerlo desde aca!!
-	do
-	{
-		ingresar_alfabeto();
-		cout << "Ingresar otro elemento del alfabeto de entrada? " << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
-		cin >> aux;
-	} while (aux != 0);
-	do
-	{
-		ingresar_estados();
-		cout << "Ingresar otro estado ? " << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
-		cin >> aux;
-	} while (aux != 0);
-	
+	//int aux = 0;	//armar una funcion que se encargue del ingreso de todo y no hacerlo desde aca!!
+	//do
+	//{
+	//	ingresar_alfabeto();
+	//	cout << "Ingresar otro elemento del alfabeto de entrada? " << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
+	//	cin >> aux;
+	//} while (aux != 0);
+	ingreso_alfabeto_repetido();
+	ingreso_estados_repetido();
 	crear_tabla_f();
+	//do
+	//{
+	//	ingresar_estados();
+	//	cout << "Ingresar otro estado ? " << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
+	//	cin >> aux;
+	//} while (aux != 0);
+	
+	
 }
 
 Automata::~Automata()
@@ -66,7 +69,7 @@ void Automata::rellenar()	//con matriz de estados
 		}
 }
 
-void Automata::mostrar_tabla_f()	//con matriz de char
+void Automata::mostrar_tabla_f()
 {
 	for (int i = 0; i < estados.size() + 1; i++)
 	{
@@ -82,24 +85,8 @@ void Automata::ingresar_alfabeto()
 	fflush(stdout);
 	string ingreso;
 	cin >> ingreso;
-	//int B = 0;	//bandera para realizar controles a la nueva palabra que ingrese en caso de que este repetida
 	if (!alfabeto_entrada.empty())
-	{
-		//while (B == 0)
-		//{
-		//	B = 1;
-		//	for (int i = 0; i<alfabeto_entrada.size(); i++)
-		//	{
-		//		if (alfabeto_entrada[i] == ingreso)
-		//		{
-		//			cout << "Elemento existente. Ingrese uno distinto ";
-		//			cin >> ingreso;
-		//			B = 0;
-		//			i = alfabeto_entrada.size();
-		//		}
-		//	}
-		//}
-		
+	{		
 		while (buscarAlfabeto(ingreso) != -1)
 		{
 			cout << "Elemento existente. Ingrese uno distinto ";
@@ -109,60 +96,89 @@ void Automata::ingresar_alfabeto()
 	alfabeto_entrada.push_back(ingreso);
 }
 
+//void Automata::ingresar_estados()
+//{
+//	int i = 0;
+//
+//	//Estado estado_ingresado = Estado();
+//	Estado estado_ingresado;
+//
+//	bool inicial, salida;
+//	string nombre;
+//	cout << "Ingrese nombre del estado ";
+//	cin >> nombre;
+//
+//	cout << "Estado Inicial?" << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
+//	cin >> inicial;
+//
+//	cout << "Estado de Salida?" << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
+//	cin >> salida;
+//
+//	if (!estados.empty())
+//	{
+//		if (inicial == 1)
+//		{
+//			for (int i = 0; i<estados.size(); i++)
+//			{
+//				if (estados[i].esInicial())
+//				{
+//					cout << "No puede haber dos estados iniciales. Se convirtio el estado actual en uno NO inicial";//Podriamos hacer que vuelva a ingresar estado
+//					inicial = 0;
+//				}
+//			}
+//		}
+//	//	int B = 0; //bandera para controlar si el nuevo nombre que ingresa para el estado no está repetido
+//	//	while (B == 0)
+//	//	{
+//	//		B = 1;
+//	//		for (int i = 0; i<estados.size(); i++)
+//	//		{
+//	//			if (estados[i].getNombre() == nombre)
+//	//			{
+//	//				cout << "Estado existente. Ingrese uno distinto ";
+//	//				cin >> nombre;
+//	//				B = 0;
+//	//				i = estados.size();
+//	//			}
+//	//		}
+//	//	}
+//		while (buscarEstado(nombre) != -1)
+//		{
+//			cout << "Estado existente. Ingrese uno distinto ";
+//			cin >> nombre;
+//		}
+//	}
+//
+//	estado_ingresado = { nombre,  inicial,  salida };
+//	estados.push_back(estado_ingresado);
+//	if(estado_ingresado.esInicial())
+//		estado_inicial = estado_ingresado;
+//}
+
 void Automata::ingresar_estados()
 {
 	int i = 0;
-	bool inicial, salida;
-	string nombre;
-	Estado estado_ingresado = Estado();
 
-	cout << "Ingrese nombre del estado ";
-	cin >> nombre;
+	Estado estado_ingresado;
 
-	cout << "Estado Inicial?" << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
-	cin >> inicial;
-
-	cout << "Estado de Salida?" << endl << "0 = No" << endl << "1 = Si" << " "<<endl;
-	cin >> salida;
+	estado_ingresado = ingresar_info_estado();
 
 	if (!estados.empty())
 	{
-		if (inicial == 1)
+		if (estado_ingresado.esInicial() == 1)
 		{
 			for (int i = 0; i<estados.size(); i++)
 			{
 				if (estados[i].esInicial())
 				{
-					cout << "No puede haber dos estados iniciales. Se convirtio el estado actual en uno NO inicial";//Podriamos hacer que vuelva a ingresar estado
-					inicial = 0;
+					cout << "No puede haber dos estados iniciales. Se convirtio el estado actual en uno NO inicial";
+					estado_ingresado.cambiar_inicial(false);
 				}
 			}
 		}
-	//	int B = 0; //bandera para controlar si el nuevo nombre que ingresa para el estado no está repetido
-	//	while (B == 0)
-	//	{
-	//		B = 1;
-	//		for (int i = 0; i<estados.size(); i++)
-	//		{
-	//			if (estados[i].getNombre() == nombre)
-	//			{
-	//				cout << "Estado existente. Ingrese uno distinto ";
-	//				cin >> nombre;
-	//				B = 0;
-	//				i = estados.size();
-	//			}
-	//		}
-	//	}
-		while (buscarEstado(nombre) != -1)
-		{
-			cout << "Estado existente. Ingrese uno distinto ";
-			cin >> nombre;
-		}
 	}
-
-	estado_ingresado = { nombre,  inicial,  salida };
 	estados.push_back(estado_ingresado);
-	if(estado_ingresado.esInicial())
+	if (estado_ingresado.esInicial())
 		estado_inicial = estado_ingresado;
 }
 
@@ -226,6 +242,51 @@ int Automata::buscarEstado(string ingreso)
 			return i;
 	}
 	return -1;
+}
+
+void Automata::ingreso_alfabeto_repetido()
+{
+	int aux = 0;
+	do
+	{
+		ingresar_alfabeto();
+		cout << "Ingresar otro elemento del alfabeto de entrada? " << endl << "0 = No" << endl << "1 = Si" << " " << endl;
+		cin >> aux;
+	} while (aux != 0);
+}
+
+void Automata::ingreso_estados_repetido()
+{
+	int aux;
+	do
+	{
+		ingresar_estados();
+		cout << "Ingresar otro estado ? " << endl << "0 = No" << endl << "1 = Si" << " " << endl;
+		cin >> aux;
+	} while (aux != 0);
+}
+
+Estado Automata::ingresar_info_estado()
+{
+	bool inicial, salida;
+	string nombre;
+
+	cout << "Ingrese nombre del estado ";
+	cin >> nombre;
+	while (buscarEstado(nombre) != -1)
+	{
+		cout << "Estado existente. Ingrese uno distinto ";
+		cin >> nombre;
+	}
+
+	cout << "Estado Inicial?" << endl << "0 = No" << endl << "1 = Si" << " " << endl;
+	cin >> inicial;
+
+	cout << "Estado de Salida?" << endl << "0 = No" << endl << "1 = Si" << " " << endl;
+	cin >> salida;
+
+	Estado devolver = { nombre, inicial, salida };
+	return devolver;
 }
 
 		
