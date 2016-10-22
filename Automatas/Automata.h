@@ -27,5 +27,6 @@ public:
 	void comprobar_palabra();
 	void mostrar_palabra_lenguaje();
 	int buscarAlfabeto(string);
+	int buscarEstado(string);
 };
 

@@ -52,12 +52,17 @@ void Automata::rellenar()	//con matriz de estados
 				alfabeto_entrada[i] << " pasamos al estado: ";
 			cin >> ingreso;
 
-			while (k < estados.size() && estados[k].getNombre() != ingreso)
-				k++;
-			if (k >= estados.size())
+			//while (k < estados.size() && estados[k].getNombre() != ingreso)
+			//	k++;
+			//if (k >= estados.size())
+			//	cout << "Estado no existente. Ingrese uno nuevamente";
+			while (buscarEstado(ingreso) == -1)
+			{
 				cout << "Estado no existente. Ingrese uno nuevamente";
-			else
-				matriz[j+1][i+1] = estados[k];
+				cin >> ingreso;
+			}
+			
+			matriz[j+1][i+1] = estados[buscarEstado(ingreso)];
 		}
 }
 
@@ -77,22 +82,28 @@ void Automata::ingresar_alfabeto()
 	fflush(stdout);
 	string ingreso;
 	cin >> ingreso;
-	int B = 0;	//bandera para realizar controles a la nueva palabra que ingrese en caso de que este repetida
+	//int B = 0;	//bandera para realizar controles a la nueva palabra que ingrese en caso de que este repetida
 	if (!alfabeto_entrada.empty())
 	{
-		while (B == 0)
+		//while (B == 0)
+		//{
+		//	B = 1;
+		//	for (int i = 0; i<alfabeto_entrada.size(); i++)
+		//	{
+		//		if (alfabeto_entrada[i] == ingreso)
+		//		{
+		//			cout << "Elemento existente. Ingrese uno distinto ";
+		//			cin >> ingreso;
+		//			B = 0;
+		//			i = alfabeto_entrada.size();
+		//		}
+		//	}
+		//}
+		
+		while (buscarAlfabeto(ingreso) != -1)
 		{
-			B = 1;
-			for (int i = 0; i<alfabeto_entrada.size(); i++)
-			{
-				if (alfabeto_entrada[i] == ingreso)
-				{
-					cout << "Elemento existente. Ingrese uno distinto ";
-					cin >> ingreso;
-					B = 0;
-					i = alfabeto_entrada.size();
-				}
-			}
+			cout << "Elemento existente. Ingrese uno distinto ";
+			cin >> ingreso;
 		}
 	}
 	alfabeto_entrada.push_back(ingreso);
@@ -127,22 +138,28 @@ void Automata::ingresar_estados()
 				}
 			}
 		}
-		int B = 0; //bandera para controlar si el nuevo nombre que ingresa para el estado no está repetido
-		while (B == 0)
+	//	int B = 0; //bandera para controlar si el nuevo nombre que ingresa para el estado no está repetido
+	//	while (B == 0)
+	//	{
+	//		B = 1;
+	//		for (int i = 0; i<estados.size(); i++)
+	//		{
+	//			if (estados[i].getNombre() == nombre)
+	//			{
+	//				cout << "Estado existente. Ingrese uno distinto ";
+	//				cin >> nombre;
+	//				B = 0;
+	//				i = estados.size();
+	//			}
+	//		}
+	//	}
+		while (buscarEstado(nombre) != -1)
 		{
-			B = 1;
-			for (int i = 0; i<estados.size(); i++)
-			{
-				if (estados[i].getNombre() == nombre)
-				{
-					cout << "Estado existente. Ingrese uno distinto ";
-					cin >> nombre;
-					B = 0;
-					i = estados.size();
-				}
-			}
+			cout << "Estado existente. Ingrese uno distinto ";
+			cin >> nombre;
 		}
 	}
+
 	estado_ingresado = { nombre,  inicial,  salida };
 	estados.push_back(estado_ingresado);
 	if(estado_ingresado.esInicial())
@@ -189,9 +206,26 @@ void Automata::mostrar_palabra_lenguaje()
 	
 }
 
-int Automata::buscarAlfabeto(string)
+int Automata::buscarAlfabeto(string ingreso)
 {
-	return 0;
+	int i = 0;
+	for (; i<alfabeto_entrada.size(); i++)
+	{
+		if (alfabeto_entrada[i] == ingreso)
+			return i;
+	}
+	return -1;
+}
+
+int Automata::buscarEstado(string ingreso)
+{
+	int i = 0;
+	for (int i = 0; i<estados.size(); i++)
+	{
+		if (estados[i].getNombre() == ingreso)
+			return i;
+	}
+	return -1;
 }
 
 		
