@@ -25,7 +25,6 @@ public:
 	void ingresar_alfabeto();
 	void ingresar_estados();
 	void comprobar_palabra();
-	void mostrar_palabra_lenguaje();
 	int buscarAlfabeto(string);
 	int buscarEstado(string);
 	void ingreso_alfabeto_repetido();
