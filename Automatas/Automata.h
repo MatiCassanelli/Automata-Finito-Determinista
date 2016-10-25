@@ -30,5 +30,6 @@ public:
 	void ingreso_alfabeto_repetido();
 	void ingreso_estados_repetido();
 	Estado ingresar_info_estado();
+	int existeInicial();
 };
 

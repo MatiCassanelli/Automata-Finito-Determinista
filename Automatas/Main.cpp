@@ -8,24 +8,18 @@
 int main()
 {
 	Automata automata= Automata();
-	//int ia = 0, ie = 0;	//esto no sirve
-	//do
-	//{
-	//	automata.ingresar_alfabeto();
-	//	cout << "Ingresar otro elemento del alfabeto de entrada? " << endl << "0 = No" << endl << "1 = Si" << " " << endl;
-	//	cin >> ia;
-	//} while (ia != 0);
 
-	//do
-	//{
-	//	automata.ingresar_estados();
-	//	cout << "Ingresar otro estado ? " << endl << "0 = No" << endl << "1 = Si" << " " << endl;
-	//	cin >> ie;
-	//} while (ie != 0);
 	automata.mostrar_tabla_f();
-	automata.comprobar_palabra();
-	
+	//automata.comprobar_palabra();	//para version de Mati
 
+	cout << endl << "Ingrese @ si quiere ingresar otra palabra." << endl << endl;	//version de Felipe
+	do {
+		automata.comprobar_palabra();
+		cout << endl << endl << "Ingrese nueva palabra:" << endl;
+	} while (0 != 1);
+
+	
+	system("Pause");
     return 0;
 }
 
